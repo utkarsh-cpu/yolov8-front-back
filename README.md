@@ -118,11 +118,11 @@ object_detection_microservice/
 	•	Annotated Image with bounding boxes (base64-encoded).
 ### Check Logs
 
-• ### UI Logs
+•  UI Logs
 ```bash
   docker-compose logs -f ui_backend
 ```
-• ### AI Logs
+• AI Logs
 ```bash
   docker-compose logs -f ai_backend
 ```
@@ -130,16 +130,16 @@ object_detection_microservice/
 
 ### Configuration
 
-• ### YOLO Model
+• YOLO Model
 	• By default, the AI service loads `yolov8n.pt` (nano model). Adjust this in `inference.py` if you want a different YOLOv8 variant.
-• ### Confidence Threshold
+• Confidence Threshold
 	• In `inference.py`, the call:
  
  		model.predict(source=np_image, imgsz=640, conf=0.25)
    sets the confidence threshold to 0.25. Tweak as needed.
-•	## Ports:
-	•	###UI: Mapped to host’s port 5000.
-	•	### AI: Mapped to host’s port 5001.
-	•	### Adjust docker-compose.yml as desired.
+• Ports:
+	• UI: Mapped to host’s port 5000.
+	• AI: Mapped to host’s port 5001.
+	• Adjust docker-compose.yml as desired.
 
 
