@@ -141,5 +141,59 @@ object_detection_microservice/
 	- UI: Mapped to host’s port 5000.
 	- AI: Mapped to host’s port 5001.
  	- Adjust docker-compose.yml as desired.
+---
+## How It Works
 
+### 1. **UI (`ui_backend`)**
+- **Serves** `index.html` at root (`/`) via Flask’s `render_template`.
+- Implements `/upload` endpoint:
+  - Receives the uploaded file.
+  - Uses `requests` to forward the file to `AI_BACKEND_URL` (default: `http://ai_backend:5001/detect`).
+  - Returns the JSON response (detections + annotated image) to the browser.
 
+### 2. **AI (`ai_backend`)**
+- Flask endpoint `/detect` expects a file under `image`.
+- Uses Ultralytics YOLOv8 to run inference:
+  - Example:
+    ```python
+    model = YOLO('yolov8n.pt')
+    result = model.predict(...)
+    ```
+  - Extracts bounding boxes, confidences, classes, etc.
+  - Draws bounding boxes on the image using OpenCV (`cv2.rectangle`, `cv2.putText`).
+  - Encodes the annotated image as base64.
+  - Returns a JSON response:
+    ```json
+    {
+      "detections": [...],
+      "annotated_image": "<base64>"
+    }
+    ```
+
+### 3. **Browser**
+- Decodes the base64 string and renders it as an `<img>`.
+
+---
+
+## Troubleshooting
+
+- **Connection Refused**:
+  - Ensure Docker containers are running (`docker-compose up`) and no firewall blocks ports `5000/5001`.
+  
+- **Model Download Issues**:
+  - If YOLOv8 weights fail to download automatically, place them manually or ensure internet connectivity.
+
+- **Performance**:
+  - YOLOv8n on CPU might be slow for large images. Use smaller image sizes or upgrade to GPU-based Docker if available.
+
+- **Memory Errors**:
+  - Large images or low system RAM might cause memory issues. Resize or optimize images before uploading.
+
+---
+## References
+
+- [Ultralytics YOLOv8 Documentation](https://docs.ultralytics.com)  
+- [Flask Documentation](https://flask.palletsprojects.com)  
+- [Docker Documentation](https://docs.docker.com)  
+- [OpenCV](https://opencv.org)  
+- [Pillow Documentation](https://pillow.readthedocs.io)
