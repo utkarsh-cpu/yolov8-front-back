@@ -116,15 +116,17 @@ object_detection_microservice/
 4.	Upon success, the page displays:
 	•	JSON Detections (bounding boxes, classes, confidences).
 	•	Annotated Image with bounding boxes (base64-encoded).
+### Check Logs
 
-# UI Logs
+### UI Logs
 ```bash
   docker-compose logs -f ui_backend
 ```
-# AI Logs
+### AI Logs
 ```bash
   docker-compose logs -f ai_backend
 ```
+
 
 
 
