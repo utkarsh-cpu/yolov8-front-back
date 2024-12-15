@@ -47,3 +47,27 @@ We use **Docker** and **docker-compose** to orchestrate these services.
        "detections": [...],
        "annotated_image": "<base64>"
    }
+5. The **UI** service relays that JSON back to the browser.
+6. **Browser** displays the JSON detection data and **annotated** image.
+
+---
+
+##Folder Structure
+
+object_detection_microservice/
+│
+├── AI/
+│   ├── Dockerfile
+│   ├── requirements.txt
+│   └── inference.py      # YOLOv8 inference service
+│
+├── UI/
+│   ├── Dockerfile
+│   ├── requirements.txt
+|   ├── preprocess.py
+│   ├── app.py            # Flask UI + proxy
+│   └── templates/
+│       └── index.html    # Frontend HTML
+│
+└── docker-compose.yml
+
