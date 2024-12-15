@@ -110,7 +110,7 @@ object_detection_microservice/
 
 ## Usage & Testing
 
-1.	Visit http://localhost:5000/ to see an upload form with a progress bar.
+1.	Visit http://localhost:5002/ to see an upload form with a progress bar.
 2.	Select an image file (JPEG/PNG) and click Upload & Detect.
 3.	The progress bar updates as the image uploads.
 4.	Upon success, the page displays:
