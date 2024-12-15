@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Ultralytics YOLO Detection</title>
+    <style>
+        #upload-progress {
+            width: 100%;
+            height: 20px;
+            display: none;
+        }
+        #annotated-image {
+            display: none;
+            max-width: 600px;
+            margin-top: 20px;
+            border: 2px solid #ccc;
+        }
+        #detection-json {
+            margin-top: 20px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            background-color: #f2f2f2;
+            padding: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Object Detection with Ultralytics YOLO</h1>
+    <form id="upload-form">
+        <input type="file" id="image" name="image" accept="image/*" required />
+        <button type="submit">Upload & Detect</button>
+    </form>
+
+    <progress id="upload-progress" value="0" max="100"></progress>
+    <div id="detection-json"></div>
+    <img id="annotated-image" alt="Annotated Output" />
+
+    <script>
+        const form = document.getElementById('upload-form');
+        const progressBar = document.getElementById('upload-progress');
+        const annotatedImage = document.getElementById('annotated-image');
+        const detectionJsonDiv = document.getElementById('detection-json');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const fileInput = document.getElementById('image');
+            if (!fileInput.files.length) {
+                alert("No file selected!");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("image", fileInput.files[0]);
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/upload', true);
+
+            // Show progress bar
+            progressBar.style.display = 'block';
+            progressBar.value = 0;
+
+            // track upload progress
+            xhr.upload.addEventListener('progress', (e) => {
+                if (e.lengthComputable) {
+                    const percentComplete = (e.loaded / e.total) * 100;
+                    progressBar.value = percentComplete;
+                }
+            });
+
+            // handle response
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    const response = JSON.parse(xhr.responseText);
+
+                    // Show the detection JSON
+                    detectionJsonDiv.style.display = 'block';
+                    detectionJsonDiv.textContent = JSON.stringify(response.detections, null, 2);
+
+                    // Show the annotated image (base64)
+                    const base64Image = response.annotated_image;
+                    annotatedImage.src = `data:image/jpeg;base64,${base64Image}`;
+                    annotatedImage.style.display = 'block';
+                } else {
+                    alert("Error: " + xhr.status + " " + xhr.statusText);
+                }
+            };
+
+            xhr.send(formData);
+        });
+    </script>
+</body>
+</html>
