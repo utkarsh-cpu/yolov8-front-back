@@ -52,7 +52,7 @@ We use **Docker** and **docker-compose** to orchestrate these services.
 
 ---
 
-##Folder Structure
+## Folder Structure
 
 ```bash
 object_detection_microservice/
