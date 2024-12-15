@@ -54,20 +54,17 @@ We use **Docker** and **docker-compose** to orchestrate these services.
 
 ##Folder Structure
 
+```bash
 object_detection_microservice/
-│
-├── AI/
+├── ai_backend/
 │   ├── Dockerfile
 │   ├── requirements.txt
-│   └── inference.py      # YOLOv8 inference service
-│
-├── UI/
+│   └── inference.py
+├── ui_backend/
 │   ├── Dockerfile
 │   ├── requirements.txt
-|   ├── preprocess.py
-│   ├── app.py            # Flask UI + proxy
+│   ├── app.py
 │   └── templates/
-│       └── index.html    # Frontend HTML
-│
+│       └── index.html
 └── docker-compose.yml
 
