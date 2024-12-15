@@ -104,6 +104,27 @@ object_detection_microservice/
    ```
    
 4.	Wait for both containers (ui_backend and ai_backend) to start.
-5.	Open your browser at http://localhost:5000/.
+5.	Open your browser at http://localhost:5002/.
+
+---
+
+## Usage & Testing
+
+1.	Visit http://localhost:5000/ to see an upload form with a progress bar.
+2.	Select an image file (JPEG/PNG) and click Upload & Detect.
+3.	The progress bar updates as the image uploads.
+4.	Upon success, the page displays:
+	•	JSON Detections (bounding boxes, classes, confidences).
+	•	Annotated Image with bounding boxes (base64-encoded).
+
+# UI Logs
+```bash
+  docker-compose logs -f ui_backend
+```
+# AI Logs
+```bash
+  docker-compose logs -f ai_backend
+```
+
 
 
